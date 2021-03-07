@@ -27,14 +27,15 @@ std::istream& operator>>(std::istream& in, Person& person) {
 типа Person (этот тип определен в answer.h, не удаляйте его!) и возвращает
 std::map вида *имя личности*: *его возраст*.
 */
-void MyMapTest(std::vector<Person>& persons) 
+
+std::map<std::string, int> MyMapTest(std::vector<Person>& persons) 
 {
-	std::map<std::string, int> personsMap
-	for (size_t i = 0; i < persons.size; i++)
+	std::map<std::string, int> personsMap;
+	for (size_t i = 0; i < persons.size(); i++) 
 	{
-		/* code */
+		personsMap[persons[i].name] = persons[i].age;
 	}
-	
+	return personsMap;
 }
 
 /*
@@ -42,9 +43,14 @@ void MyMapTest(std::vector<Person>& persons)
 в стиле C (int* numbers) и количество элементов в этом массиве (int size).
 Вы должны скопировать все числа из C-style массива в вектор и вернуть этот вектор.
 */
-void MyVectorTest() 
+std::vector<int> MyVectorTest(int* array, int size)
 {
-
+	std::vector<int> arr(size);
+	for (size_t i = 0; i < size; i++)
+	{
+		arr[i] = array[i];
+	}
+	return arr;
 }
 
 
@@ -52,9 +58,8 @@ void MyVectorTest()
 Реализуйте функцию MyIteratingTest, которой на вход подается произвольный контейер,
 который хранит значения типа Person, а также ей на вход подается объект типа 
 std::ostream& (ссылочность здесь обязательна! Иначе код просто не скомпилируется!). 
-Знаю, что мы пока не проходили потоки ввода-вывода, но вам достаточно относиться 
-к объекту std::ostream& так же, как и к std::cout: в std::ostream тоже можно писать
-какие-то значения с помощью <<. В этой функции вам необходимо вывести в переданный
+
+В этой функции вам необходимо вывести в переданный
 std::ostream& значения, хранящиеся в переданном контейнере в формате 
 "{person.name} [{person.age}]", причем в конце этой строчки обязательно 
 нужно вывести std::endl. Например, мы имеем два значения типа Person. 
@@ -63,8 +68,15 @@ std::ostream& значения, хранящиеся в переданном к�
 A [20]
 B [42]
 */
-void MyIteratingTest() {
 
+template <typename T>
+void MyIteratingTest(T collection, std::ostream& os)
+{
+	std::iterator<T> it;
+	for (size_t i = 0; i < collection.size(); i++)
+	{
+		os << (std::string)sprintf("%s [%i]", collection[it].name, collection[it].age) << std::endl;
+	}
 }
 
 
@@ -72,6 +84,8 @@ void MyIteratingTest() {
 Реализуйте функцию MySortTest, которая сортирует (с помощью std::sort!)
 первую половину вектора, хранящего значения произвольного типа.
 */
-void MySortTest() {
-
+template <typename T>
+void MySortTest(std::vector<T>& vec)
+{
+	std::sort(vec[0], vec[vec.size() / 2]);
 }
